@@ -1,0 +1,34 @@
+import pandas 
+
+session = pandas.read_csv('./data/SessionAnalysis.csv')
+session_sum = session["Speaker"].size
+speaker_sum = session["Speaker"].unique().size 
+duration_sum = session["Duration"].sum()
+average_duration = (duration_sum/session_sum).round(2)
+
+# Add column participants into the dataframe
+session["Participants"] = session["Offline"] + session["Online"]
+
+offline_participants = session["Offline"].sum()    
+online_participants = session["Online"].sum()
+total_participants = session["Participants"].sum()
+
+
+
+print("We have " + str(session_sum) + " Sessions in total")
+print( str(speaker_sum) + " Speakers in total")
+print(" They are: " + str(session["Speaker"].unique()))
+print("The totoal duration is " + str(duration_sum) + " minutes")
+print("The average duration is " + str(average_duration)  + " minutes")
+
+print(str(offline_participants) + " members participant in offline mode")
+print(str(online_participants) + " members participant in online mode")
+print(str(total_participants) + " members participant in total")
+print("The top 3 sessions with most participants are: ")
+print(session.sort_values(by = "Participants", ascending = False).head(3))
+
+print ("Bogdan Teleuca is the most active speaker with " + str(session[session["Speaker"] == "Bogdan Teleuca"]["Duration"].sum()) + " minutes")
+print ("Bogdan Teleuca is the most active speaker with " + str(session[session["Speaker"] == "Bogdan Teleuca"]["Participants"].sum()) + " participants")
+
+
+
